@@ -5,26 +5,28 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   paper-dropdown-menu.html
+ *   paper-dropdown-menu.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../shadycss/apply-shim.d.ts" />
-/// <reference path="../polymer/types/lib/elements/custom-style.d.ts" />
-/// <reference path="../polymer/types/lib/utils/render-status.d.ts" />
-/// <reference path="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.d.ts" />
-/// <reference path="../iron-behaviors/iron-button-state.d.ts" />
-/// <reference path="../iron-behaviors/iron-control-state.d.ts" />
-/// <reference path="../iron-icon/iron-icon.d.ts" />
-/// <reference path="../iron-validatable-behavior/iron-validatable-behavior.d.ts" />
-/// <reference path="../paper-menu-button/paper-menu-button.d.ts" />
-/// <reference path="../anypoint-styles/typography.d.ts" />
-/// <reference path="../anypoint-styles/colors.d.ts" />
-/// <reference path="paper-dropdown-menu-icons.d.ts" />
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
+
+import {IronA11yKeysBehavior} from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior.js';
+
+import {IronButtonState} from '@polymer/iron-behaviors/iron-button-state.js';
+
+import {IronControlState} from '@polymer/iron-behaviors/iron-control-state.js';
+
+import {IronValidatableMixin} from '@polymer/iron-validatable-behavior/iron-validatable-behavior.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 
 declare namespace AnypointElements {
 
@@ -86,11 +88,8 @@ declare namespace AnypointElements {
    * `--paper-dropdown-menu-label-opened-color` | Color of the label when opened | `rgba(0, 0, 0, 0.24)`
    */
   class PaperDropdownMenu extends
-    Polymer.IronButtonState(
-    Polymer.IronControlState(
-    Polymer.IronValidatableBehavior(
-    Polymer.IronA11yKeysBehavior(
-    Object)))) {
+    IronValidatableMixin(
+    Object) {
     readonly keyBindings: any;
 
     /**
@@ -100,7 +99,7 @@ declare namespace AnypointElements {
 
     /**
      * The content element that is contained by the dropdown menu, if any.
-     *      
+     *    
      */
     readonly contentElement: any;
 
@@ -171,6 +170,15 @@ declare namespace AnypointElements {
     _renderValue: string|null|undefined;
 
     /**
+     * Returns false if the element is required and does not have a selection,
+     * and true otherwise.
+     *
+     * @returns true if `required` is false, or if `required` is true
+     * and the element has a valid selection.
+     */
+    _getValidity(): boolean;
+
+    /**
      * Ensures attributes and registers listeners.
      */
     connectedCallback(): void;
@@ -210,15 +218,6 @@ declare namespace AnypointElements {
      * optional `label` property.
      */
     _selectedItemChanged(selectedItem: Element|null): void;
-
-    /**
-     * Returns false if the element is required and does not have a selection,
-     * and true otherwise.
-     *
-     * @returns true if `required` is false, or if `required` is true
-     * and the element has a valid selection.
-     */
-    _getValidity(): boolean;
     _openedChanged(): void;
     _computeLabelVisible(hasContent: any, opened: any): any;
     _computeDefaultVisible(hasContent: any): any;
@@ -226,6 +225,9 @@ declare namespace AnypointElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "paper-dropdown-menu": AnypointElements.PaperDropdownMenu;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "paper-dropdown-menu": AnypointElements.PaperDropdownMenu;
+  }
 }

@@ -5,11 +5,11 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   paper-dropdown-menu-icons.html
+ *   paper-dropdown-menu-icons.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-/// <reference path="../iron-iconset-svg/iron-iconset-svg.d.ts" />
 
+export {};

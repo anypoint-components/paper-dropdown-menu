@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/test-helpers.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
-    <link rel="import" href="../../paper-listbox/paper-listbox.html">
-    <link rel="import" href="../../paper-item/paper-item.html">
-    <link rel="import" href="../paper-dropdown-menu.html">
+    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+    <script src="../../../wct-browser-legacy/browser.js"></script>
+    <script src="../../../@polymer/iron-test-helpers/test-helpers.js" type="module"></script>
+    <script src="../../../@polymer/iron-test-helpers/mock-interactions.js" type="module"></script>
+    <script type="module" src="../../../@polymer/paper-listbox/paper-listbox.js"></script>
+    <script type="module" src="../../../@polymer/paper-item/paper-item.js"></script>
+    <script type="module" src="../paper-dropdown-menu.js"></script>
   </head>
   <body>
 
@@ -47,11 +47,16 @@
     </template>
   </test-fixture>
 
-    <script>
+    <script type="module">
+    import '@polymer/paper-listbox/paper-listbox.js';
+    import '@polymer/paper-item/paper-item.js';
+    import '../paper-dropdown-menu.js';
+    import { Base } from '@polymer/polymer/polymer-legacy.js';
+    import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
     /* global fixture, expect, MockInteractions */
     function runAfterOpen(menu, callback) {
       menu.menuButton.$.dropdown.addEventListener('iron-overlay-opened', () => {
-        Polymer.Base.async(callback, 1);
+        Base.async(callback, 1);
       });
       setTimeout(() => {
         MockInteractions.tap(menu);
@@ -87,7 +92,7 @@
         runAfterOpen(dropdownMenu, () => {
           const firstItem = content.querySelector('paper-item');
           MockInteractions.tap(firstItem);
-          Polymer.Base.async(() => {
+          Base.async(() => {
             expect(dropdownMenu.opened).to.be.equal(false);
             done();
           });
@@ -95,9 +100,9 @@
       });
       test('sets selected item to the activated item', (done) => {
         runAfterOpen(dropdownMenu, () => {
-          const firstItem = Polymer.dom(content).querySelector('paper-item');
+          const firstItem = dom(content).querySelector('paper-item');
           MockInteractions.tap(firstItem);
-          Polymer.Base.async(() => {
+          Base.async(() => {
             expect(dropdownMenu.selectedItem).to.be.equal(firstItem);
             done();
           });
